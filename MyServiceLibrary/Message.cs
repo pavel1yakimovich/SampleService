@@ -8,8 +8,9 @@ namespace MyServiceLibrary
 {
     public enum Operation
     {
-        Remove,
-        Search
+        Add,
+        AddRange,
+        Remove
     }
     [Serializable]
     public class Message

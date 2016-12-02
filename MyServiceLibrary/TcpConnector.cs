@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MyServiceLibrary
@@ -37,19 +38,18 @@ namespace MyServiceLibrary
             while (true)
             {
                 TcpClient client = server.AcceptTcpClient();
-
+                
                 using (NetworkStream stream = client.GetStream())
                 {
                     message = (Message)formatter.Deserialize(stream);
-                    HandleRequest(message);
+                    HandleRequest(stream, message);
                 }
                 client.Close();
             }
         }
 
-        protected virtual void HandleRequest(Message message)
+        protected virtual void HandleRequest(NetworkStream stream, Message message)
         {
-            Console.WriteLine(message.Parameter.ToString());
         }
 
         protected void SendMessage(int port, string ip, Message message)

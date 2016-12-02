@@ -17,32 +17,31 @@ namespace ServiceApplication
             // 4. Search for an user by the last name.
             var master = new Master(11001, "127.0.0.1", service);
             var slave = new Slave(11000, "127.0.0.1", slaveService, master);
-
-            Console.ReadKey();
+            
             var user1 = new User() { FirstName = "Pavel", LastName = "Yakimovich" };
             var user2 = new User() { FirstName = "Pavel", LastName = "Ivanov" };
             master.Add(user1);
             master.Add(user2);
-            slaveService.Add(user1);
-            slaveService.Add(user2);
-
-            foreach (var item in slave.Search(u => u.FirstName == "Pavel"))
-            {
-                Console.WriteLine(item.FirstName);
-            }
-
-            master.Remove(u => u.LastName == "Ivanov");
-
-            Console.WriteLine("\nAfter removing: ");
-
-            Console.ReadKey();
+            
+            Console.ReadLine();
 
             foreach (var item in slave.Search(u => u.FirstName == "Pavel"))
             {
                 Console.WriteLine(item.LastName);
             }
 
-            Console.ReadKey();
+            master.Remove(u => u.LastName == "Ivanov");
+
+            Console.WriteLine("\nAfter removing: ");
+
+            Console.ReadLine();
+
+            foreach (var item in slave.Search(u => u.FirstName == "Pavel"))
+            {
+                Console.WriteLine(item.LastName);
+            }
+
+            Console.ReadLine();
         }
     }
 }

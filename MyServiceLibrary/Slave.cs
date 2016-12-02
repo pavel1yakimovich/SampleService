@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace MyServiceLibrary
 {
@@ -18,23 +18,23 @@ namespace MyServiceLibrary
             master.AddSlave(this);
         }
 
-        public IEnumerable<User> Search(Func<User, bool> predicate)
-        {
-            var result = service.GetUser(predicate);
-            
-            if (!result.Any())
-            {
-                this.SendMessage(master.port, master.ipAddr, new Message(Operation.Search, predicate));
-            }
-
-            return this.service.GetUser(predicate);
-        }
+        /// <summary>
+        /// Method for searching users
+        /// </summary>
+        /// <param name="predicate">Predicate</param>
+        /// <returns>List of users</returns>
+        public IEnumerable<User> Search(Func<User, bool> predicate) => this.service.GetUser(predicate);
         
-        protected override void HandleRequest(Message message)
+        protected override void HandleRequest(NetworkStream stream, Message message)
         {
+            var formatter = new BinaryFormatter();
+
             switch (message.Operation)
             { 
-                case Operation.Search:
+                case Operation.Add:
+                    service.Add(message.Parameter as User);
+                    break;
+                case Operation.AddRange:
                     service.AddRange(message.Parameter as List<User>);
                     break;
                 case Operation.Remove:
