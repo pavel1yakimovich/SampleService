@@ -2,3 +2,4 @@ C:\Users\Pavel_Yakimovich\Desktop\SampleService\MyServiceLibrary\bin\Debug\MySer
 C:\Users\Pavel_Yakimovich\Desktop\SampleService\MyServiceLibrary\bin\Debug\MyServiceLibrary.pdb
 C:\Users\Pavel_Yakimovich\Desktop\SampleService\MyServiceLibrary\obj\Debug\MyServiceLibrary.dll
 C:\Users\Pavel_Yakimovich\Desktop\SampleService\MyServiceLibrary\obj\Debug\MyServiceLibrary.pdb
+C:\Users\Pavel_Yakimovich\Desktop\SampleService\MyServiceLibrary\obj\Debug\MyServiceLibrary.csprojResolveAssemblyReference.cache

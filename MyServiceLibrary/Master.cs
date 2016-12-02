@@ -32,10 +32,10 @@ namespace MyServiceLibrary
         public int Add(User user)
         {
             int result = this.service.Add(user);
-            foreach (var slave in this.slaves)
-            {
-                this.SendMessage(slave.Key, slave.Value, new Message(Operation.Add, user));
-            }
+            //foreach (var slave in this.slaves)
+            //{
+            //    this.SendMessage(slave.Key, slave.Value, new Message(Operation.Add, user));
+            //}
 
             return result;
         }
