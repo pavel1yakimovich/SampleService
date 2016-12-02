@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyServiceLibrary", "MyServi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyServiceLibrary.Tests", "MyServiceLibrary.Tests\MyServiceLibrary.Tests.csproj", "{9A6C785F-F746-4392-89EF-C133C6FF80F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfUserStorageService", "WcfUserStorageService\WcfUserStorageService.csproj", "{3F21FA9A-BB58-43E4-8EFF-726402DD1446}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9A6C785F-F746-4392-89EF-C133C6FF80F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A6C785F-F746-4392-89EF-C133C6FF80F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A6C785F-F746-4392-89EF-C133C6FF80F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F21FA9A-BB58-43E4-8EFF-726402DD1446}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F21FA9A-BB58-43E4-8EFF-726402DD1446}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F21FA9A-BB58-43E4-8EFF-726402DD1446}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F21FA9A-BB58-43E4-8EFF-726402DD1446}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

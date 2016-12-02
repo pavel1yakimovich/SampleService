@@ -13,11 +13,15 @@ namespace MyServiceLibrary
         private UserStorageService service;
         private Dictionary<int, string> slaves;
 
-        public Master(int port, string ip, UserStorageService service)
+        public Master(Dictionary<int, string> slaves, UserStorageService service = null)
         {
+            if(ReferenceEquals(service, null))
+            {
+                service = new UserStorageService();
+            }
+
             this.service = service;
-            this.slaves = new Dictionary<int, string>();
-            this.slaves.Add(11000, "127.0.0.1");
+            this.slaves = slaves;
         }
 
         /// <summary>
@@ -27,9 +31,8 @@ namespace MyServiceLibrary
         /// <returns>id</returns>
         public int Add(User user)
         {
-            int result = service.Add(user);
-
-            foreach(var slave in slaves)
+            int result = this.service.Add(user);
+            foreach (var slave in this.slaves)
             {
                 this.SendMessage(slave.Key, slave.Value, new Message(Operation.Add, user));
             }
@@ -37,11 +40,16 @@ namespace MyServiceLibrary
             return result;
         }
 
+        /// <summary>
+        /// Method for adding a range of users
+        /// </summary>
+        /// <param name="list">list of users</param>
+        /// <returns>list of id</returns>
         public IEnumerable<int> AddRange(IEnumerable<User> list)
         {
-            IEnumerable<int> result = service.AddRange(list);
+            IEnumerable<int> result = this.service.AddRange(list);
 
-            foreach (var slave in slaves)
+            foreach (var slave in this.slaves)
             {
                 this.SendMessage(slave.Key, slave.Value, new Message(Operation.AddRange, list));
             }
@@ -54,14 +62,14 @@ namespace MyServiceLibrary
         /// </summary>
         /// <param name="id">id</param>
         /// <returns>User</returns>
-        public User SearchById(int id) => service.GetUserById(id);
+        public User SearchById(int id) => this.service.GetUserById(id);
 
         /// <summary>
         /// Method for searching users by predicate
         /// </summary>
         /// <param name="predicate">predicate</param>
         /// <returns>List of users</returns>
-        public IEnumerable<User> Search(Func<User, bool> predicate) => service.GetUser(predicate);
+        public IEnumerable<User> Search(Func<User, bool> predicate) => this.service.GetUser(predicate);
 
         /// <summary>
         /// Method for removing users by predicate
@@ -69,14 +77,15 @@ namespace MyServiceLibrary
         /// <param name="predicate">predicate</param>
         public void Remove(Predicate<User> predicate)
         {
-            service.Remove(predicate);
-            foreach(var slave in slaves)
+            this.service.Remove(predicate);
+
+            foreach (var slave in this.slaves)
             {
                 this.SendMessage(slave.Key, slave.Value, new Message(Operation.Remove, predicate));
             }
         }
 
-        protected void SendMessage(int port, string ip, Message message)
+        private void SendMessage(int port, string ip, Message message)
         {
             if (ReferenceEquals(message, null))
             {

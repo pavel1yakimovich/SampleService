@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyServiceLibrary
+namespace MyServiceLibrary.Exceptions
 {
     public class InvalidUserException : Exception
     {

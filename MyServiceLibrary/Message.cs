@@ -12,10 +12,12 @@ namespace MyServiceLibrary
         AddRange,
         Remove
     }
+
     [Serializable]
     public class Message
     {
         public Operation Operation { get; set; }
+
         public object Parameter { get; set; }
 
         public Message(Operation op, object param)

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MyServiceLibrary.Exceptions;
+using MyServiceLibrary.Interfaces;
 
 namespace MyServiceLibrary
 {
     [Serializable]
-    // Rename this class. Give the class an appropriate name that will allow all other developers understand it's purpose.
+    //// Rename this class. Give the class an appropriate name that will allow all other developers understand it's purpose.
     public class UserStorageService
     {
         private List<User> storage;
@@ -64,7 +66,7 @@ namespace MyServiceLibrary
 
             var result = new List<int>();
 
-            foreach(var item in users)
+            foreach (var item in users)
             {
                 result.Add(this.Add(item, match));
             }

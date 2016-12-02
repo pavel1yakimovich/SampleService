@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
-using System.Xml.Serialization;
 using System.IO;
+using System.Xml.Serialization;
+using MyServiceLibrary.Interfaces;
 
 namespace MyServiceLibrary
 {
@@ -18,7 +19,7 @@ namespace MyServiceLibrary
         {
             XmlSerializer formatter = new XmlSerializer(typeof(T));
 
-            using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream(this.fileName, FileMode.OpenOrCreate))
             {
                 foreach (T item in list)
                 {

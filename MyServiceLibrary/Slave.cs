@@ -7,20 +7,25 @@ using System.Threading.Tasks;
 
 namespace MyServiceLibrary
 {
-    public class Slave 
+    public class Slave
     {
         private UserStorageService service;
-        private Master master;
-        internal int port;
-        internal string ipAddr;
         private object locker = new object();
 
-        public Slave(int port, string ip, UserStorageService service, Master master)
+        internal int Port { get; set; }
+
+        internal string IPAddr { get; set; }
+
+        public Slave(int port, string ip, UserStorageService service = null)
         {
+            if (ReferenceEquals(service, null))
+            {
+                service = new UserStorageService();
+            }
+
             this.service = service;
-            this.master = master;
-            this.ipAddr = ip;
-            this.port = port;
+            this.IPAddr = ip;
+            this.Port = port;
 
             Task.Run(() => this.CreateServer());
         }
@@ -34,7 +39,7 @@ namespace MyServiceLibrary
         {
             IEnumerable<User> result;
 
-            lock (locker)
+            lock (this.locker)
             {
                 result = this.service.GetUser(predicate);
             }
@@ -44,8 +49,8 @@ namespace MyServiceLibrary
 
         private Task CreateServer()
         {
-            IPAddress localAddr = IPAddress.Parse(ipAddr);
-            TcpListener server = new TcpListener(localAddr, this.port);
+            IPAddress localAddr = IPAddress.Parse(this.IPAddr);
+            TcpListener server = new TcpListener(localAddr, this.Port);
 
             // Start listening for client requests. 
             server.Start();
@@ -60,8 +65,9 @@ namespace MyServiceLibrary
                 using (NetworkStream stream = client.GetStream())
                 {
                     Message message = (Message)formatter.Deserialize(stream);
-                    HandleRequest(stream, message);
+                    this.HandleRequest(stream, message);
                 }
+
                 client.Close();
             }
         }
@@ -69,31 +75,32 @@ namespace MyServiceLibrary
         private void HandleRequest(NetworkStream stream, Message message)
         {
             var formatter = new BinaryFormatter();
+            switch (message.Operation)
+            {
+                case Operation.Add:
+                    lock (this.locker)
+                    {
+                        this.service.Add(message.Parameter as User);
+                    }
 
-                switch (message.Operation)
-                {
-                    case Operation.Add:
-                        lock (locker)
-                        {
-                            service.Add(message.Parameter as User);
-                        }
-                        break;
-                    case Operation.AddRange:
-                        lock (locker)
-                        {
-                            service.AddRange(message.Parameter as List<User>);
-                        }
-                        break;
-                    case Operation.Remove:
-                        lock (locker)
-                        {
-                            service.Remove(message.Parameter as Predicate<User>);
-                        }
-                        break;
-                    default:
-                        break;
-               }
-            
+                    break;
+                case Operation.AddRange:
+                    lock (this.locker)
+                    {
+                        this.service.AddRange(message.Parameter as List<User>);
+                    }
+
+                    break;
+                case Operation.Remove:
+                    lock (this.locker)
+                    {
+                        this.service.Remove(message.Parameter as Predicate<User>);
+                    }
+
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
