@@ -45,6 +45,7 @@
     <Compile Include="Master.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Slave.cs" />
+    <Compile Include="SlavesConfigSection.cs" />
     <Compile Include="TcpConnector.cs" />
     <Compile Include="UserStorageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

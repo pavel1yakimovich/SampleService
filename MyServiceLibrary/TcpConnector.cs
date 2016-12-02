@@ -31,14 +31,14 @@ namespace MyServiceLibrary
 
             // Start listening for client requests. 
             server.Start();
-            
+
             var formatter = new BinaryFormatter();
 
             // Enter the listening loop. 
             while (true)
             {
                 TcpClient client = server.AcceptTcpClient();
-                
+
                 using (NetworkStream stream = client.GetStream())
                 {
                     message = (Message)formatter.Deserialize(stream);

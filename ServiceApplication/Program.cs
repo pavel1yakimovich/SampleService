@@ -22,8 +22,6 @@ namespace ServiceApplication
             var user2 = new User() { FirstName = "Pavel", LastName = "Ivanov" };
             master.Add(user1);
             master.Add(user2);
-            
-            Console.ReadLine();
 
             foreach (var item in slave.Search(u => u.FirstName == "Pavel"))
             {
@@ -34,11 +32,13 @@ namespace ServiceApplication
 
             Console.WriteLine("\nAfter removing: ");
 
-            Console.ReadLine();
-
-            foreach (var item in slave.Search(u => u.FirstName == "Pavel"))
+            for (int i = 0; i < 10; i++)
             {
-                Console.WriteLine(item.LastName);
+                var result = slave.Search(u => u.FirstName == "Pavel");
+                foreach (var item in result)
+                {
+                    Console.WriteLine(item.LastName);
+                }
             }
 
             Console.ReadLine();

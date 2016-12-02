@@ -84,7 +84,7 @@ namespace MyServiceLibrary
         /// </summary>
         /// <param name="predicate">predicate</param>
         /// <returns>IEnumerable of users</returns>
-        public IEnumerable<User> GetUser(Func<User, bool> predicate) => this.storage.Where(predicate);
+        public IEnumerable<User> GetUser(Func<User, bool> predicate) => this.storage.Where(predicate).ToList();
 
         /// <summary>
         /// Method for getting user by id

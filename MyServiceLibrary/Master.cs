@@ -8,15 +8,16 @@ using System.Threading.Tasks;
 
 namespace MyServiceLibrary
 {
-    public class Master : TcpConnector
+    public class Master
     {
         private UserStorageService service;
-        private List<Slave> slaves;
+        private Dictionary<int, string> slaves;
 
-        public Master(int port, string ip, UserStorageService service) : base(port, ip)
+        public Master(int port, string ip, UserStorageService service)
         {
             this.service = service;
-            this.slaves = new List<Slave>();
+            this.slaves = new Dictionary<int, string>();
+            this.slaves.Add(11000, "127.0.0.1");
         }
 
         /// <summary>
@@ -28,9 +29,9 @@ namespace MyServiceLibrary
         {
             int result = service.Add(user);
 
-            foreach(Slave slave in slaves)
+            foreach(var slave in slaves)
             {
-                this.SendMessage(slave.port, slave.ipAddr, new Message(Operation.Add, user));
+                this.SendMessage(slave.Key, slave.Value, new Message(Operation.Add, user));
             }
 
             return result;
@@ -40,9 +41,9 @@ namespace MyServiceLibrary
         {
             IEnumerable<int> result = service.AddRange(list);
 
-            foreach (Slave slave in slaves)
+            foreach (var slave in slaves)
             {
-                this.SendMessage(slave.port, slave.ipAddr, new Message(Operation.AddRange, list));
+                this.SendMessage(slave.Key, slave.Value, new Message(Operation.AddRange, list));
             }
 
             return result;
@@ -71,10 +72,26 @@ namespace MyServiceLibrary
             service.Remove(predicate);
             foreach(var slave in slaves)
             {
-                this.SendMessage(slave.port, slave.ipAddr, new Message(Operation.Remove, predicate));
+                this.SendMessage(slave.Key, slave.Value, new Message(Operation.Remove, predicate));
             }
         }
 
-        internal void AddSlave(Slave slave) => slaves.Add(slave);
+        protected void SendMessage(int port, string ip, Message message)
+        {
+            if (ReferenceEquals(message, null))
+            {
+                return;
+            }
+
+            var formatter = new BinaryFormatter();
+
+            using (TcpClient client = new TcpClient(ip, port))
+            {
+                using (NetworkStream stream = client.GetStream())
+                {
+                    formatter.Serialize(stream, message);
+                }
+            }
+        }
     }
 }
