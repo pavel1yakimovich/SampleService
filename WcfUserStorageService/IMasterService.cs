@@ -13,26 +13,41 @@ namespace WcfUserStorageService
         User SearchById(int id);
 
         [OperationContract]
-        IEnumerable<User> Search(PredicateContract predicate);
+        IEnumerable<User> Search(SearchContext ctx);
 
         [OperationContract]
-        int Add(User user);
+        int Add(UserDataContract user);
 
         [OperationContract]
-        IEnumerable<int> AddRange(IEnumerable<User> list);
+        IEnumerable<int> AddRange(List<UserDataContract> list);
 
         [OperationContract]
-        void Remove(PredicateContract predicate);
+        bool Remove(UserDataContract user);
     }
     
     [DataContract]
-    [KnownType(typeof(object))]
-    public class PredicateContract
+    public class UserDataContract
     {
         [DataMember]
-        public object ContractFunc { get; set; }
+        public string FirstName { get; set; }
 
         [DataMember]
-        public object ContractPredicate { get; set; }
+        public string LastName { get; set; }
+
+        [DataMember]
+        public DateTime DateOfBirth { get; set; }
+    }
+
+    [DataContract]
+    public class SearchContext
+    {
+        [DataMember]
+        public string FirstName { get; set; }
+
+        [DataMember]
+        public string LastName { get; set; }
+
+        [DataMember]
+        public DateTime? DateOfBirth { get; set; }
     }
 }

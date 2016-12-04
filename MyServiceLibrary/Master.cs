@@ -8,12 +8,17 @@ using System.Threading.Tasks;
 
 namespace MyServiceLibrary
 {
-    public class Master
+    [Serializable]
+    public class Master : MarshalByRefObject
     {
-        private UserStorageService service;
-        private Dictionary<int, string> slaves;
+        private readonly UserStorageService service;
+        private readonly Dictionary<int, string> slaves;
 
-        public Master(Dictionary<int, string> slaves, UserStorageService service = null)
+        public Master(Dictionary<int, string> slaves) : this(slaves, null)
+        {
+        }
+
+        public Master(Dictionary<int, string> slaves, UserStorageService service)
         {
             if(ReferenceEquals(service, null))
             {
@@ -32,10 +37,10 @@ namespace MyServiceLibrary
         public int Add(User user)
         {
             int result = this.service.Add(user);
-            //foreach (var slave in this.slaves)
-            //{
-            //    this.SendMessage(slave.Key, slave.Value, new Message(Operation.Add, user));
-            //}
+            foreach (var slave in this.slaves)
+            {
+                this.SendMessage(slave.Key, slave.Value, new Message(Operation.Add, user));
+            }
 
             return result;
         }
@@ -75,14 +80,16 @@ namespace MyServiceLibrary
         /// Method for removing users by predicate
         /// </summary>
         /// <param name="predicate">predicate</param>
-        public void Remove(Predicate<User> predicate)
+        public bool Remove(User user)
         {
-            this.service.Remove(predicate);
+            bool result = this.service.Remove(u => u.Equals(user));
 
             foreach (var slave in this.slaves)
             {
-                this.SendMessage(slave.Key, slave.Value, new Message(Operation.Remove, predicate));
+                this.SendMessage(slave.Key, slave.Value, new Message(Operation.Remove, user));
             }
+
+            return result;
         }
 
         private void SendMessage(int port, string ip, Message message)
@@ -94,12 +101,19 @@ namespace MyServiceLibrary
 
             var formatter = new BinaryFormatter();
 
-            using (TcpClient client = new TcpClient(ip, port))
+            try
             {
-                using (NetworkStream stream = client.GetStream())
+
+                using (TcpClient client = new TcpClient(ip, port))
                 {
-                    formatter.Serialize(stream, message);
+                    using (NetworkStream stream = client.GetStream())
+                    {
+                        formatter.Serialize(stream, message);
+                    }
                 }
+            }
+            catch (SocketException)
+            {
             }
         }
     }

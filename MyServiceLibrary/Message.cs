@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyServiceLibrary
 {
+    [Serializable]
     public enum Operation
     {
         Add,

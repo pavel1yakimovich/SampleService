@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using MyServiceLibrary;
 
 namespace ServiceApplication
@@ -14,70 +16,49 @@ namespace ServiceApplication
             // 3. Search for an user by the first name.
             // 4. Search for an user by the last name.
 
-            var slaves = new Dictionary<int, string>();
-            slaves.Add(11000, "127.0.0.1");
-            slaves.Add(11001, "127.0.0.1");
-            slaves.Add(11002, "127.0.0.1");
+            var dictionary = new Dictionary<int, string>();
+            dictionary.Add(11000, "127.0.0.1");
+            //dictionary.Add(11001, "127.0.0.1");
+            //dictionary.Add(11002, "127.0.0.1");
 
-            var master = new Master(slaves, service);
-            var slave1 = new Slave(11000, "127.0.0.1");
-            var slave2 = new Slave(11001, "127.0.0.1");
-            var slave3 = new Slave(11002, "127.0.0.1");
+            var slaves = new List<Slave>();
+
+            foreach (var item in dictionary)
+            {
+                var appDomainSetup = new AppDomainSetup
+                {
+                    ApplicationBase = AppDomain.CurrentDomain.BaseDirectory,
+                    PrivateBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SlaveDomain")
+                };
+                AppDomain domain = AppDomain.CreateDomain("SlaveDomain", null, appDomainSetup);
+                var assembly = Assembly.Load("MyServiceLibrary");
+
+                slaves.Add((Slave)domain.CreateInstanceAndUnwrap(assembly.FullName, typeof(Slave).FullName, true,
+                    BindingFlags.Default, null, args: new object[] { item.Key, item.Value }, culture: null,
+                    activationAttributes: null));
+                //slaves.Add(new Slave(item.Key, item.Value));
+            }
+
+            var appDomainSetup1 = new AppDomainSetup
+            {
+                ApplicationBase = AppDomain.CurrentDomain.BaseDirectory,
+                PrivateBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Master")
+            };
+            AppDomain domain1 = AppDomain.CreateDomain("Master", null, appDomainSetup1);
+            var assembly1 = Assembly.Load("MyServiceLibrary");
+
+            var master = (Master)domain1.CreateInstanceAndUnwrap(assembly1.FullName, typeof(Master).FullName, true,
+                BindingFlags.Default, null, args: new object[] { dictionary }, culture: null,
+                activationAttributes: null);
 
             var user1 = new User() { FirstName = "Pavel", LastName = "Yakimovich" };
             var user2 = new User() { FirstName = "Pavel", LastName = "Ivanov" };
             master.Add(user1);
             master.Add(user2);
 
-            foreach (var item in slave1.Search(u => u.FirstName == "Pavel"))
-            {
-                Console.WriteLine(item.LastName);
-            }
+            Console.ReadLine();
 
-            master.Remove(u => u.LastName == "Ivanov");
-
-            Console.WriteLine("\nAfter removing slave1: ");
-
-            for (int i = 0; i < 10; i++)
-            {
-                var list = slave1.Search(u => u.FirstName == "Pavel");
-                foreach (var item in list)
-                {
-                    Console.WriteLine(item.LastName);
-                }
-            }
-
-            Console.WriteLine("\nAfter removing slave2: ");
-
-            var result = slave1.Search(u => u.FirstName == "Pavel");
-            foreach (var item in result)
-            {
-                Console.WriteLine(item.LastName);
-            }
-
-
-            Console.WriteLine("\nAfter removing slave3: ");
-
-            result = slave1.Search(u => u.FirstName == "Pavel");
-            foreach (var item in result)
-            {
-                Console.WriteLine(item.LastName);
-            }
-
-            master.Add(user2);
-
-            Console.WriteLine("\nAfter adding slave3: ");
-
-            result = slave1.Search(u => u.FirstName == "Pavel");
-
-            for (int i = 0; i < 3; i++)
-            {
-                var list = slave1.Search(u => u.FirstName == "Pavel");
-                foreach (var item in list)
-                {
-                    Console.WriteLine(item.LastName);
-                }
-            }
+            slaves[0].Search(u => u.Id == 1);
 
             Console.ReadLine();
         }

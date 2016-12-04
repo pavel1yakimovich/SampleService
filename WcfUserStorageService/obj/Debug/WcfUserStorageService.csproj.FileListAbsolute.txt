@@ -6,3 +6,11 @@ C:\Users\Pavel_Yakimovich\Desktop\SampleService\WcfUserStorageService\obj\Debug\
 C:\Users\Pavel_Yakimovich\Desktop\SampleService\WcfUserStorageService\obj\Debug\WcfUserStorageService.pdb
 C:\Users\Pavel_Yakimovich\Desktop\SampleService\WcfUserStorageService\bin\Debug\MyServiceLibrary.dll
 C:\Users\Pavel_Yakimovich\Desktop\SampleService\WcfUserStorageService\bin\Debug\MyServiceLibrary.pdb
+E:\Trainings EPAM\WCF services\SampleService\WcfUserStorageService\bin\Debug\WcfUserStorageService.dll.config
+E:\Trainings EPAM\WCF services\SampleService\WcfUserStorageService\bin\Debug\WcfUserStorageService.dll
+E:\Trainings EPAM\WCF services\SampleService\WcfUserStorageService\bin\Debug\WcfUserStorageService.pdb
+E:\Trainings EPAM\WCF services\SampleService\WcfUserStorageService\bin\Debug\MyServiceLibrary.dll
+E:\Trainings EPAM\WCF services\SampleService\WcfUserStorageService\bin\Debug\MyServiceLibrary.pdb
+E:\Trainings EPAM\WCF services\SampleService\WcfUserStorageService\obj\Debug\WcfUserStorageService.csprojResolveAssemblyReference.cache
+E:\Trainings EPAM\WCF services\SampleService\WcfUserStorageService\obj\Debug\WcfUserStorageService.dll
+E:\Trainings EPAM\WCF services\SampleService\WcfUserStorageService\obj\Debug\WcfUserStorageService.pdb

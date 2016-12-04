@@ -8,10 +8,10 @@ namespace MyServiceLibrary
 {
     [Serializable]
     //// Rename this class. Give the class an appropriate name that will allow all other developers understand it's purpose.
-    public class UserStorageService
+    public class UserStorageService : MarshalByRefObject
     {
-        private List<User> storage;
-        private Func<int, int> predicateId;
+        private readonly List<User> storage;
+        private readonly Func<int, int> predicateId;
         private int lastId;
 
         public UserStorageService(List<User> storage = null, Func<int, int> predicate = null)
@@ -35,7 +35,8 @@ namespace MyServiceLibrary
         /// Method for adding user in storage
         /// </summary>
         /// <param name="user">user we should add</param>
-        /// <returns>this user</returns>
+        /// <param name="match">predicate for comparison</param>
+        /// <returns>user's id</returns>
         public int Add(User user, Predicate<User> match = null)
         {
             if (ReferenceEquals(user, null))
@@ -57,6 +58,12 @@ namespace MyServiceLibrary
             return user.Id;
         }
 
+        /// <summary>
+        /// Method for adding range of users
+        /// </summary>
+        /// <param name="users">list of users</param>
+        /// <param name="match">predicate for comparison</param>
+        /// <returns>users' id</returns>
         public IEnumerable<int> AddRange(IEnumerable<User> users, Predicate<User> match = null)
         {
             if (ReferenceEquals(users, null))
@@ -64,22 +71,15 @@ namespace MyServiceLibrary
                 throw new ArgumentNullException();
             }
 
-            var result = new List<int>();
-
-            foreach (var item in users)
-            {
-                result.Add(this.Add(item, match));
-            }
-
-            return result;
+            return users.Select(item => this.Add(item, match)).ToList();
         }
-
+        
         /// <summary>
-        /// Method for removing user in storage
+        /// Method for removing users in storage
         /// </summary>
-        /// <param name="user">user we should remove</param>
+        /// <param name="predicate">predicate</param>
         /// <returns>boolean on success</returns>
-        public void Remove(Predicate<User> predicate) => this.storage.RemoveAll(predicate);
+        public bool Remove(Predicate<User> predicate) => this.storage.RemoveAll(predicate) != 0 ? true : false;
 
         /// <summary>
         /// Method for searching user by predicate

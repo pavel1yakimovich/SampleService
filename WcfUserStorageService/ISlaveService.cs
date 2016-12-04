@@ -10,9 +10,7 @@ namespace WcfUserStorageService
     public interface ISlaveService
     {
         [OperationContract]
-        IEnumerable<User> Search(Func<User, bool> predicate);
-
-        // TODO: Add your service operations here
+        IEnumerable<User> Search(SearchContext search, int slaveNumber);
     }
 
     // Use a data contract as illustrated in the sample below to add composite types to service operations.

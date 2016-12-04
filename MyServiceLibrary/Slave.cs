@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace MyServiceLibrary
 {
-    public class Slave
+    [Serializable]
+    public class Slave : MarshalByRefObject
     {
+        private static int count;
         private UserStorageService service;
         private object locker = new object();
 
@@ -16,7 +18,11 @@ namespace MyServiceLibrary
 
         internal string IPAddr { get; set; }
 
-        public Slave(int port, string ip, UserStorageService service = null)
+        public Slave(int port, string ip) : this(port, ip, null)
+        {
+        }
+
+        public Slave(int port, string ip, UserStorageService service)
         {
             if (ReferenceEquals(service, null))
             {
@@ -26,6 +32,7 @@ namespace MyServiceLibrary
             this.service = service;
             this.IPAddr = ip;
             this.Port = port;
+            count++;
 
             Task.Run(() => this.CreateServer());
         }
@@ -94,7 +101,8 @@ namespace MyServiceLibrary
                 case Operation.Remove:
                     lock (this.locker)
                     {
-                        this.service.Remove(message.Parameter as Predicate<User>);
+                        var user = message.Parameter as User;
+                        this.service.Remove(u => u.Equals(user));
                     }
 
                     break;

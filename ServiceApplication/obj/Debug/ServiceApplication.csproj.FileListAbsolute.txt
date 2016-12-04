@@ -6,3 +6,11 @@ C:\Users\Pavel_Yakimovich\Desktop\SampleService\ServiceApplication\bin\Debug\MyS
 C:\Users\Pavel_Yakimovich\Desktop\SampleService\ServiceApplication\obj\Debug\ServiceApplication.exe
 C:\Users\Pavel_Yakimovich\Desktop\SampleService\ServiceApplication\obj\Debug\ServiceApplication.pdb
 C:\Users\Pavel_Yakimovich\Desktop\SampleService\ServiceApplication\obj\Debug\ServiceApplication.csprojResolveAssemblyReference.cache
+E:\Trainings EPAM\WCF services\SampleService\ServiceApplication\bin\Debug\ServiceApplication.exe.config
+E:\Trainings EPAM\WCF services\SampleService\ServiceApplication\obj\Debug\ServiceApplication.exe
+E:\Trainings EPAM\WCF services\SampleService\ServiceApplication\obj\Debug\ServiceApplication.pdb
+E:\Trainings EPAM\WCF services\SampleService\ServiceApplication\bin\Debug\ServiceApplication.exe
+E:\Trainings EPAM\WCF services\SampleService\ServiceApplication\bin\Debug\ServiceApplication.pdb
+E:\Trainings EPAM\WCF services\SampleService\ServiceApplication\bin\Debug\MyServiceLibrary.dll
+E:\Trainings EPAM\WCF services\SampleService\ServiceApplication\bin\Debug\MyServiceLibrary.pdb
+E:\Trainings EPAM\WCF services\SampleService\ServiceApplication\obj\Debug\ServiceApplication.csprojResolveAssemblyReference.cache

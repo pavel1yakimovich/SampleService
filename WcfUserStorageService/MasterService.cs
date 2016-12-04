@@ -1,41 +1,86 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+using MyServiceLibrary;
+using System;
 using System.IO;
 using System.Reflection;
-using MyServiceLibrary;
 
 namespace WcfUserStorageService
 {
-    public class MasterService : IMasterService
+    public class MasterService : MarshalByRefObject, IMasterService
     {
-        private static Master master;
+        private static readonly Master master;
 
         static MasterService()
         {
-            var slaves = new Dictionary<int, string>();
-            slaves.Add(11000, "127.0.0.1");
-            slaves.Add(11001, "127.0.0.1");
-            slaves.Add(11002, "127.0.0.1");
+            var slaves = new Dictionary<int, string> { { 11000, "127.0.0.1" }, { 11001, "127.0.0.1" }, { 11002, "127.0.0.1" } };
+            new SlaveService(); //this line is for scenario when slaves are not created. do we need this?
 
-            master = new Master(slaves);
-            //var appDomainSetup = new AppDomainSetup
-            //{
-            //    ApplicationBase = AppDomain.CurrentDomain.BaseDirectory,
-            //    PrivateBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MyDomain")
-            //};
-            //AppDomain domain = AppDomain.CreateDomain("MyDomain", null, appDomainSetup);
-            //var assembly = Assembly.Load("MyServiceLibrary");
+            var appDomainSetup = new AppDomainSetup
+            {
+                ApplicationBase = AppDomain.CurrentDomain.BaseDirectory,
+                PrivateBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MasterDomain")
+            };
+            AppDomain domain = AppDomain.CreateDomain("MasterDomain", null, appDomainSetup);
+            var assembly = Assembly.Load("MyServiceLibrary");
 
-            //this.master = (Master)domain.CreateInstanceAndUnwrap("MyServiceLibrary", typeof(Master).FullName, true, BindingFlags.Default, null, args: new object[] { slaves }, culture: null, activationAttributes: null);
+            master = (Master) domain.CreateInstanceAndUnwrap(assembly.FullName, typeof(Master).FullName, true,
+                BindingFlags.Default, null, args: new object[] {slaves}, culture: null,
+                activationAttributes: null);
         }
 
-        public int Add(User user) => master.Add(user);
+        public int Add(UserDataContract user) => master.Add(new User()
+        {
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            DateOfBirth = user.DateOfBirth
+        });
 
-        public IEnumerable<int> AddRange(IEnumerable<User> list) => master.AddRange(list);
+        public IEnumerable<int> AddRange(List<UserDataContract> list)
+        {
+            var userList = list.Select(user => new User()
+            {
+                FirstName = user.FirstName, LastName = user.LastName, DateOfBirth = user.DateOfBirth
+            }).ToList();
 
-        public void Remove(PredicateContract predicate) => master.Remove(predicate.ContractPredicate as Predicate<User>);
+            return master.AddRange(userList);
+        }
 
-        public IEnumerable<User> Search(PredicateContract predicate) => master.Search(predicate.ContractFunc as Func<User, bool>);
+        public bool Remove(UserDataContract user)
+        {
+            return master.Remove(new User()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                DateOfBirth = user.DateOfBirth
+            });
+        }
+
+        public IEnumerable<User> Search(SearchContext search)
+        {
+            var result = new List<User>();
+
+            var flag = false; // flag if master was called
+
+            if (!string.IsNullOrEmpty(search.FirstName))
+            {
+                result = master.Search(u => u.FirstName == search.FirstName).ToList();
+                flag = true;
+            }
+            
+            if (!string.IsNullOrEmpty(search.LastName))
+            {
+                result = flag ? result.Where(u => u.LastName == search.LastName).ToList() : master.Search(u => u.LastName == search.LastName).ToList();
+                flag = true;
+            }
+
+            if (!ReferenceEquals(search.DateOfBirth, null))
+            {
+                result = flag ? result.Where(u => u.DateOfBirth == search.DateOfBirth.Value).ToList() : master.Search(u => u.DateOfBirth == search.DateOfBirth.Value).ToList();
+            }
+
+            return result;
+        }
 
         public User SearchById(int id) => master.SearchById(id);
     }
