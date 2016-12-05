@@ -67,14 +67,14 @@ namespace MyServiceLibrary
         /// </summary>
         /// <param name="id">id</param>
         /// <returns>User</returns>
-        public User SearchById(int id) => this.service.GetUserById(id);
+        public User Search(int id) => this.service.GetUserById(id);
 
         /// <summary>
-        /// Method for searching users by predicate
+        /// Method for searching users
         /// </summary>
-        /// <param name="predicate">predicate</param>
+        /// <param name="predicate">Predicate</param>
         /// <returns>List of users</returns>
-        public IEnumerable<User> Search(Func<User, bool> predicate) => this.service.GetUser(predicate);
+        public IEnumerable<User> Search(string fname, string lname) =>this.service.GetUserByName(fname,lname);
 
         /// <summary>
         /// Method for removing users by predicate

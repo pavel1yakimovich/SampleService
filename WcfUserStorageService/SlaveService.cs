@@ -4,6 +4,7 @@ using System.IO;
 using MyServiceLibrary;
 using System.Linq;
 using System.Reflection;
+using System.Linq.Expressions;
 
 namespace WcfUserStorageService
 {
@@ -43,26 +44,17 @@ namespace WcfUserStorageService
             var slave = slaves[slaveNumber];
             var result = new List<User>();
 
-            var flag = false; // flag if master was called
-
-            if (!string.IsNullOrEmpty(search.FirstName))
+            if (!string.IsNullOrEmpty(search.FirstName) && !string.IsNullOrEmpty(search.LastName))
             {
-                result = slave.Search(u => u.FirstName == search.FirstName).ToList();
-                flag = true;
-            }
-
-            if (!string.IsNullOrEmpty(search.LastName))
-            {
-                result = flag ? result.Where(u => u.LastName == search.LastName).ToList() : slave.Search(u => u.LastName == search.LastName).ToList();
-                flag = true;
-            }
-
-            if (!ReferenceEquals(search.DateOfBirth, null))
-            {
-                result = flag ? result.Where(u => u.DateOfBirth == search.DateOfBirth.Value).ToList() : slave.Search(u => u.DateOfBirth == search.DateOfBirth.Value).ToList();
+                return slave.Search(search.FirstName, search.LastName);
             }
 
             return result;
+        }
+
+        public User SearchById (int id, int slaveNumber)
+        {
+            return slaves[slaveNumber].Search(id);
         }
     }
 }

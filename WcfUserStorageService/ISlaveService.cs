@@ -11,6 +11,9 @@ namespace WcfUserStorageService
     {
         [OperationContract]
         IEnumerable<User> Search(SearchContext search, int slaveNumber);
+
+        [OperationContract]
+        User SearchById(int id, int slaveNumber);
     }
 
     // Use a data contract as illustrated in the sample below to add composite types to service operations.

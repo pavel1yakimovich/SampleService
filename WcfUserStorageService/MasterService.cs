@@ -16,6 +16,8 @@ namespace WcfUserStorageService
             var slaves = new Dictionary<int, string> { { 11000, "127.0.0.1" }, { 11001, "127.0.0.1" }, { 11002, "127.0.0.1" } };
             new SlaveService(); //this line is for scenario when slaves are not created. do we need this?
 
+            //master = new Master(slaves);
+
             var appDomainSetup = new AppDomainSetup
             {
                 ApplicationBase = AppDomain.CurrentDomain.BaseDirectory,
@@ -24,8 +26,8 @@ namespace WcfUserStorageService
             AppDomain domain = AppDomain.CreateDomain("MasterDomain", null, appDomainSetup);
             var assembly = Assembly.Load("MyServiceLibrary");
 
-            master = (Master) domain.CreateInstanceAndUnwrap(assembly.FullName, typeof(Master).FullName, true,
-                BindingFlags.Default, null, args: new object[] {slaves}, culture: null,
+            master = (Master)domain.CreateInstanceAndUnwrap(assembly.FullName, typeof(Master).FullName, true,
+                BindingFlags.Default, null, args: new object[] { slaves }, culture: null,
                 activationAttributes: null);
         }
 
@@ -60,28 +62,14 @@ namespace WcfUserStorageService
         {
             var result = new List<User>();
 
-            var flag = false; // flag if master was called
-
-            if (!string.IsNullOrEmpty(search.FirstName))
+            if (!string.IsNullOrEmpty(search.FirstName) && !string.IsNullOrEmpty(search.LastName))
             {
-                result = master.Search(u => u.FirstName == search.FirstName).ToList();
-                flag = true;
-            }
-            
-            if (!string.IsNullOrEmpty(search.LastName))
-            {
-                result = flag ? result.Where(u => u.LastName == search.LastName).ToList() : master.Search(u => u.LastName == search.LastName).ToList();
-                flag = true;
-            }
-
-            if (!ReferenceEquals(search.DateOfBirth, null))
-            {
-                result = flag ? result.Where(u => u.DateOfBirth == search.DateOfBirth.Value).ToList() : master.Search(u => u.DateOfBirth == search.DateOfBirth.Value).ToList();
+                return master.Search(search.FirstName, search.LastName);
             }
 
             return result;
         }
 
-        public User SearchById(int id) => master.SearchById(id);
+        public User SearchById(int id) => master.Search(id);
     }
 }

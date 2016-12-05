@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -42,13 +43,25 @@ namespace MyServiceLibrary
         /// </summary>
         /// <param name="predicate">Predicate</param>
         /// <returns>List of users</returns>
-        public IEnumerable<User> Search(Func<User, bool> predicate)
+        public IEnumerable<User> Search(string fname, string lname)
         {
             IEnumerable<User> result;
 
             lock (this.locker)
             {
-                result = this.service.GetUser(predicate);
+                result = this.service.GetUserByName(fname, lname);
+            }
+
+            return result;
+        }
+
+        public User Search(int id)
+        {
+            User result;
+
+            lock (this.locker)
+            {
+                result = this.service.GetUserById(id);
             }
 
             return result;
