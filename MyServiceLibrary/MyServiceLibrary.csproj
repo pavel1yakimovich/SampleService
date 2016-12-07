@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
@@ -41,6 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomSection\ConfigSettings.cs" />
+    <Compile Include="CustomSection\ConnectionSection.cs" />
+    <Compile Include="CustomSection\Element.cs" />
+    <Compile Include="CustomSection\ServerAppearanceCollection.cs" />
     <Compile Include="Exceptions\InvalidUserException.cs" />
     <Compile Include="Interfaces\ISaver.cs" />
     <Compile Include="Master.cs" />

@@ -15,7 +15,7 @@ namespace WcfUserStorageService
         /// <param name="slaveNumber">number of slave</param>
         /// <returns></returns>
         [OperationContract]
-        IEnumerable<User> Search(SearchContext search, int slaveNumber);
+        IEnumerable<UserDataContract> Search(UserDataContract search, int slaveNumber);
 
         /// <summary>
         /// Method for searching user by id
@@ -24,6 +24,6 @@ namespace WcfUserStorageService
         /// <param name="slaveNumber">number of slave</param>
         /// <returns></returns>
         [OperationContract]
-        User SearchById(int id, int slaveNumber);
+        UserDataContract SearchById(int id, int slaveNumber);
     }
 }

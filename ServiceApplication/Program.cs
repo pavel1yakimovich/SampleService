@@ -58,7 +58,7 @@ namespace ServiceApplication
 
             Console.ReadLine();
 
-            slaves[0].Search(u => u.Id == 1);
+            //slaves[0].Search(u => u.Id == 1);
 
             Console.ReadLine();
         }

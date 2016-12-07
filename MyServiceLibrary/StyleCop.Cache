@@ -3,11 +3,14 @@
   <project key="1468381762">
     <configuration>DEBUG;TRACE</configuration>
   </project>
+  <project key="336092743">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
   <sourcecode name="InvalidUserException.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2016/05/12 20:26:32.000</styleCop>
-      <settingsFile>2016/11/04 18:53:20.000</settingsFile>
-      <sourceFile>2016/12/02 15:01:59.300</sourceFile>
+      <settingsFile>2016/12/05 09:57:28.000</settingsFile>
+      <sourceFile>2016/12/05 09:57:28.000</sourceFile>
       <parser>2016/05/12 20:26:32.000</parser>
       <StyleCop.CSharp.DocumentationRules>2016/05/12 20:26:32.000</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>-221033329</StyleCop.CSharp.DocumentationRules.FilesHashCode>
@@ -29,8 +32,8 @@
   <sourcecode name="ISaver.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2016/05/12 20:26:32.000</styleCop>
-      <settingsFile>2016/11/04 18:53:20.000</settingsFile>
-      <sourceFile>2016/12/02 15:01:38.682</sourceFile>
+      <settingsFile>2016/12/05 09:57:28.000</settingsFile>
+      <sourceFile>2016/12/05 09:57:28.000</sourceFile>
       <parser>2016/05/12 20:26:32.000</parser>
       <StyleCop.CSharp.DocumentationRules>2016/05/12 20:26:32.000</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>-221033329</StyleCop.CSharp.DocumentationRules.FilesHashCode>
@@ -52,8 +55,8 @@
   <sourcecode name="Master.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2016/05/12 20:26:32.000</styleCop>
-      <settingsFile>2016/11/04 18:53:20.000</settingsFile>
-      <sourceFile>2016/12/02 19:47:53.692</sourceFile>
+      <settingsFile>2016/12/05 09:57:28.000</settingsFile>
+      <sourceFile>2016/12/07 14:24:26.001</sourceFile>
       <parser>2016/05/12 20:26:32.000</parser>
       <StyleCop.CSharp.DocumentationRules>2016/05/12 20:26:32.000</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>-221033329</StyleCop.CSharp.DocumentationRules.FilesHashCode>
@@ -70,13 +73,52 @@
       <StyleCop.CSharp.SpacingRules>2016/05/12 20:26:32.000</StyleCop.CSharp.SpacingRules>
       <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
     </timestamps>
-    <violations />
+    <violations>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to ReferenceEquals must begin with the 'this.', 'base.', 'object.' or 'Master.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>22</line>
+        <index>591</index>
+        <endIndex>605</endIndex>
+        <startLine>22</startLine>
+        <startColumn>16</startColumn>
+        <endLine>22</endLine>
+        <endColumn>30</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.SpacingRules" rule="KeywordsMustBeSpacedCorrectly" ruleCheckId="SA1000">
+        <context>The spacing around the keyword 'if' is invalid.</context>
+        <line>22</line>
+        <index>588</index>
+        <endIndex>589</endIndex>
+        <startLine>22</startLine>
+        <startColumn>13</startColumn>
+        <endLine>22</endLine>
+        <endColumn>14</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" ruleCheckId="SA1505">
+        <context>An opening curly bracket must not be followed by a blank line.</context>
+        <line>133</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to ReferenceEquals must begin with the 'this.', 'base.', 'object.' or 'Master.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>125</line>
+        <index>3946</index>
+        <endIndex>3960</endIndex>
+        <startLine>125</startLine>
+        <startColumn>17</startColumn>
+        <endLine>125</endLine>
+        <endColumn>31</endColumn>
+        <warning>False</warning>
+      </violation>
+    </violations>
   </sourcecode>
   <sourcecode name="Message.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2016/05/12 20:26:32.000</styleCop>
-      <settingsFile>2016/11/04 18:53:20.000</settingsFile>
-      <sourceFile>2016/12/02 19:47:53.683</sourceFile>
+      <settingsFile>2016/12/05 09:57:28.000</settingsFile>
+      <sourceFile>2016/12/05 09:57:28.000</sourceFile>
       <parser>2016/05/12 20:26:32.000</parser>
       <StyleCop.CSharp.DocumentationRules>2016/05/12 20:26:32.000</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>-221033329</StyleCop.CSharp.DocumentationRules.FilesHashCode>
@@ -96,7 +138,7 @@
     <violations>
       <violation namespace="StyleCop.CSharp.OrderingRules" rule="ElementsMustAppearInTheCorrectOrder" ruleCheckId="SA1201">
         <context>All properties must be placed after all constructors.</context>
-        <line>23</line>
+        <line>24</line>
         <warning>False</warning>
       </violation>
     </violations>
@@ -104,8 +146,8 @@
   <sourcecode name="AssemblyInfo.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2016/05/12 20:26:32.000</styleCop>
-      <settingsFile>2016/11/04 18:53:20.000</settingsFile>
-      <sourceFile>2016/11/04 18:53:20.000</sourceFile>
+      <settingsFile>2016/12/05 09:57:28.000</settingsFile>
+      <sourceFile>2016/12/05 09:57:28.000</sourceFile>
       <parser>2016/05/12 20:26:32.000</parser>
       <StyleCop.CSharp.DocumentationRules>2016/05/12 20:26:32.000</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>-221033329</StyleCop.CSharp.DocumentationRules.FilesHashCode>
@@ -127,8 +169,8 @@
   <sourcecode name="Slave.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2016/05/12 20:26:32.000</styleCop>
-      <settingsFile>2016/11/04 18:53:20.000</settingsFile>
-      <sourceFile>2016/12/02 19:50:43.929</sourceFile>
+      <settingsFile>2016/12/05 09:57:28.000</settingsFile>
+      <sourceFile>2016/12/07 14:12:10.591</sourceFile>
       <parser>2016/05/12 20:26:32.000</parser>
       <StyleCop.CSharp.DocumentationRules>2016/05/12 20:26:32.000</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>-221033329</StyleCop.CSharp.DocumentationRules.FilesHashCode>
@@ -148,7 +190,23 @@
     <violations>
       <violation namespace="StyleCop.CSharp.OrderingRules" rule="ElementsMustAppearInTheCorrectOrder" ruleCheckId="SA1201">
         <context>All properties must be placed after all constructors.</context>
-        <line>20</line>
+        <line>21</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.OrderingRules" rule="ElementsMustAppearInTheCorrectOrder" ruleCheckId="SA1201">
+        <context>All properties must be placed after all constructors.</context>
+        <line>25</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to ReferenceEquals must begin with the 'this.', 'base.', 'object.' or 'Slave.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>27</line>
+        <index>707</index>
+        <endIndex>721</endIndex>
+        <startLine>27</startLine>
+        <startColumn>17</startColumn>
+        <endLine>27</endLine>
+        <endColumn>31</endColumn>
         <warning>False</warning>
       </violation>
     </violations>
@@ -156,8 +214,8 @@
   <sourcecode name="User.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2016/05/12 20:26:32.000</styleCop>
-      <settingsFile>2016/11/04 18:53:20.000</settingsFile>
-      <sourceFile>2016/12/02 15:00:37.363</sourceFile>
+      <settingsFile>2016/12/05 09:57:28.000</settingsFile>
+      <sourceFile>2016/12/05 09:57:28.000</sourceFile>
       <parser>2016/05/12 20:26:32.000</parser>
       <StyleCop.CSharp.DocumentationRules>2016/05/12 20:26:32.000</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>-221033329</StyleCop.CSharp.DocumentationRules.FilesHashCode>
@@ -174,13 +232,24 @@
       <StyleCop.CSharp.SpacingRules>2016/05/12 20:26:32.000</StyleCop.CSharp.SpacingRules>
       <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
     </timestamps>
-    <violations />
+    <violations>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="CodeMustNotContainMultipleBlankLinesInARow" ruleCheckId="SA1507">
+        <context>The code must not contain multiple blank lines in a row.</context>
+        <line>41</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" ruleCheckId="SA1508">
+        <context>A closing curly bracket must not be preceded by a blank line.</context>
+        <line>42</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
   </sourcecode>
   <sourcecode name="UserStorageService.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2016/05/12 20:26:32.000</styleCop>
-      <settingsFile>2016/11/04 18:53:20.000</settingsFile>
-      <sourceFile>2016/12/02 19:51:22.700</sourceFile>
+      <settingsFile>2016/12/05 09:57:28.000</settingsFile>
+      <sourceFile>2016/12/07 14:28:00.181</sourceFile>
       <parser>2016/05/12 20:26:32.000</parser>
       <StyleCop.CSharp.DocumentationRules>2016/05/12 20:26:32.000</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>-221033329</StyleCop.CSharp.DocumentationRules.FilesHashCode>
@@ -197,6 +266,62 @@
       <StyleCop.CSharp.SpacingRules>2016/05/12 20:26:32.000</StyleCop.CSharp.SpacingRules>
       <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
     </timestamps>
-    <violations />
+    <violations>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to ReferenceEquals must begin with the 'this.', 'base.', 'object.' or 'UserStorageService.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>19</line>
+        <index>639</index>
+        <endIndex>653</endIndex>
+        <startLine>19</startLine>
+        <startColumn>17</startColumn>
+        <endLine>19</endLine>
+        <endColumn>31</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to ReferenceEquals must begin with the 'this.', 'base.', 'object.' or 'UserStorageService.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>24</line>
+        <index>765</index>
+        <endIndex>779</endIndex>
+        <startLine>24</startLine>
+        <startColumn>17</startColumn>
+        <endLine>24</endLine>
+        <endColumn>31</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to ReferenceEquals must begin with the 'this.', 'base.', 'object.' or 'UserStorageService.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>42</line>
+        <index>1406</index>
+        <endIndex>1420</endIndex>
+        <startLine>42</startLine>
+        <startColumn>17</startColumn>
+        <endLine>42</endLine>
+        <endColumn>31</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to ReferenceEquals must begin with the 'this.', 'base.', 'object.' or 'UserStorageService.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>47</line>
+        <index>1537</index>
+        <endIndex>1551</endIndex>
+        <startLine>47</startLine>
+        <startColumn>18</startColumn>
+        <endLine>47</endLine>
+        <endColumn>32</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to ReferenceEquals must begin with the 'this.', 'base.', 'object.' or 'UserStorageService.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>69</line>
+        <index>2232</index>
+        <endIndex>2246</endIndex>
+        <startLine>69</startLine>
+        <startColumn>17</startColumn>
+        <endLine>69</endLine>
+        <endColumn>31</endColumn>
+        <warning>False</warning>
+      </violation>
+    </violations>
   </sourcecode>
 </stylecopresultscache>

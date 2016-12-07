@@ -19,7 +19,7 @@ namespace MyServiceLibrary
 
         public Master(Dictionary<int, string> slaves, UserStorageService service)
         {
-            if(ReferenceEquals(service, null))
+            if (ReferenceEquals(service, null))
             {
                 service = new UserStorageService();
             }

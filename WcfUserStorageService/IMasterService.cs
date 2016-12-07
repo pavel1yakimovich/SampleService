@@ -15,7 +15,7 @@ namespace WcfUserStorageService
         /// <param name="id">id</param>
         /// <returns>user</returns>
         [OperationContract]
-        User SearchById(int id);
+        UserDataContract SearchById(int id);
 
         /// <summary>
         /// Method for searching user
@@ -23,7 +23,7 @@ namespace WcfUserStorageService
         /// <param name="ctx">searching context</param>
         /// <returns>list of users</returns>
         [OperationContract]
-        IEnumerable<User> Search(SearchContext ctx);
+        IEnumerable<UserDataContract> Search(UserDataContract ctx);
 
         /// <summary>
         /// Method for adding user
@@ -62,18 +62,8 @@ namespace WcfUserStorageService
     public class UserDataContract
     {
         [DataMember]
-        public string FirstName { get; set; }
+        public int Id { get; set; }
 
-        [DataMember]
-        public string LastName { get; set; }
-
-        [DataMember]
-        public DateTime DateOfBirth { get; set; }
-    }
-
-    [DataContract]
-    public class SearchContext
-    {
         [DataMember]
         public string FirstName { get; set; }
 

@@ -13,11 +13,17 @@ namespace WcfUserStorageService
 
         static MasterService()
         {
-            var slaves = new Dictionary<int, string> { { 11000, "127.0.0.1" }, { 11001, "127.0.0.1" }, { 11002, "127.0.0.1" } };
+            var slaves = new Dictionary<int, string>();
+
+            var config = new MyServiceLibrary.CustomSection.ConfigSettings();
+
+            foreach (var item in config.ServerElements)
+            {
+                slaves.Add(item.port, item.ip);
+            }
+
             new SlaveService(); //this line is for scenario when slaves are not created. do we need this?
-
-            //master = new Master(slaves);
-
+            
             var appDomainSetup = new AppDomainSetup
             {
                 ApplicationBase = AppDomain.CurrentDomain.BaseDirectory,
@@ -36,12 +42,15 @@ namespace WcfUserStorageService
         /// </summary>
         /// <param name="user">user</param>
         /// <returns>id</returns>
-        public int Add(UserDataContract user) => master.Add(new User()
+        public int Add(UserDataContract user)
         {
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            DateOfBirth = user.DateOfBirth
-        });
+            if (user.DateOfBirth == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return master.Add(Mapper.UserContractToUser(user));
+        }
 
         /// <summary>
         /// Method for adding range of users
@@ -50,12 +59,19 @@ namespace WcfUserStorageService
         /// <returns>list of id</returns>
         public IEnumerable<int> AddRange(List<UserDataContract> list)
         {
-            var userList = list.Select(user => new User()
-            {
-                FirstName = user.FirstName, LastName = user.LastName, DateOfBirth = user.DateOfBirth
-            }).ToList();
+            var range = new List<User>();
 
-            return master.AddRange(userList);
+            foreach (var user in list)
+            {
+                if (user.DateOfBirth == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                range.Add(Mapper.UserContractToUser(user));
+            }
+
+            return master.AddRange(range);
         }
 
         /// <summary>
@@ -65,12 +81,12 @@ namespace WcfUserStorageService
         /// <returns>true on success</returns>
         public bool Remove(UserDataContract user)
         {
-            return master.Remove(new User()
+            if (user.DateOfBirth == null)
             {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                DateOfBirth = user.DateOfBirth
-            });
+                throw new ArgumentNullException();
+            }
+
+            return master.Remove(Mapper.UserContractToUser(user));
         }
 
         /// <summary>
@@ -88,22 +104,19 @@ namespace WcfUserStorageService
         /// </summary>
         /// <param name="search">searching context</param>
         /// <returns>list of users</returns>
-        public IEnumerable<User> Search(SearchContext search)
+        public IEnumerable<UserDataContract> Search(UserDataContract search)
         {
-            var result = new List<User>();
-
             if (!string.IsNullOrEmpty(search.FirstName) && !string.IsNullOrEmpty(search.LastName) && ReferenceEquals(search.DateOfBirth, null))
             {
-                return master.Search(search.FirstName, search.LastName).ToList();
+                return master.Search(search.FirstName, search.LastName).ToList().Select(u => Mapper.UserToUserContract(u));
             }
 
             if (!string.IsNullOrEmpty(search.FirstName) && !string.IsNullOrEmpty(search.LastName) && !ReferenceEquals(search.DateOfBirth, null))
             {
-                return master.Search(new User { FirstName = search.FirstName, LastName = search.LastName,
-                DateOfBirth = search.DateOfBirth.Value }).ToList();
+                return master.Search(Mapper.UserContractToUser(search)).ToList().Select(u => Mapper.UserToUserContract(u));
             }
 
-            return result;
+            return new List<UserDataContract>();
         }
 
         /// <summary>
@@ -111,6 +124,6 @@ namespace WcfUserStorageService
         /// </summary>
         /// <param name="id">id</param>
         /// <returns>user</returns>
-        public User SearchById(int id) => master.Search(id);
+        public UserDataContract SearchById(int id) => Mapper.UserToUserContract(master.Search(id));
     }
 }
