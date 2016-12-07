@@ -9,20 +9,53 @@ namespace WcfUserStorageService
     [ServiceContract]
     public interface IMasterService
     {
+        /// <summary>
+        /// Method for searching user by id
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns>user</returns>
         [OperationContract]
         User SearchById(int id);
 
+        /// <summary>
+        /// Method for searching user
+        /// </summary>
+        /// <param name="ctx">searching context</param>
+        /// <returns>list of users</returns>
         [OperationContract]
         IEnumerable<User> Search(SearchContext ctx);
 
+        /// <summary>
+        /// Method for adding user
+        /// </summary>
+        /// <param name="user">user</param>
+        /// <returns>id</returns>
         [OperationContract]
         int Add(UserDataContract user);
 
+        /// <summary>
+        /// Method for adding range of users
+        /// </summary>
+        /// <param name="list">list of users</param>
+        /// <returns>list of id</returns>
         [OperationContract]
         IEnumerable<int> AddRange(List<UserDataContract> list);
 
+        /// <summary>
+        /// Method for removing users
+        /// </summary>
+        /// <param name="user">users we want remove</param>
+        /// <returns>true on success</returns>
         [OperationContract]
         bool Remove(UserDataContract user);
+
+        /// <summary>
+        /// Method for removing user by id
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns>true on success</returns>
+        [OperationContract]
+        bool RemoveById(int id);
     }
     
     [DataContract]

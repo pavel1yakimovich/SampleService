@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace MyServiceLibrary
 {
-    [Serializable]
     public class Master : MarshalByRefObject
     {
         private readonly UserStorageService service;
@@ -70,19 +69,48 @@ namespace MyServiceLibrary
         public User Search(int id) => this.service.GetUserById(id);
 
         /// <summary>
-        /// Method for searching users
+        /// Method for searching user by name
         /// </summary>
-        /// <param name="predicate">Predicate</param>
-        /// <returns>List of users</returns>
-        public IEnumerable<User> Search(string fname, string lname) =>this.service.GetUserByName(fname,lname);
+        /// <param name="fname">Firstname</param>
+        /// <param name="lname">Lastname</param>
+        /// <returns>list of users</returns>
+        public IEnumerable<User> Search(string fname, string lname) => this.service.GetUser(u => u.FirstName == fname && u.LastName == lname);
 
         /// <summary>
-        /// Method for removing users by predicate
+        /// Method for searching user
         /// </summary>
-        /// <param name="predicate">predicate</param>
+        /// <param name="user">user</param>
+        /// <returns>list of users</returns>
+        public IEnumerable<User> Search(User user) => this.service.GetUser(
+            u => u.FirstName == user.FirstName && user.LastName == user.LastName 
+            && u.DateOfBirth == user.DateOfBirth);
+
+        /// <summary>
+        /// Method for removing user
+        /// </summary>
+        /// <param name="user">user</param>
+        /// <returns>true on seccess</returns>
         public bool Remove(User user)
         {
             bool result = this.service.Remove(u => u.Equals(user));
+
+            foreach (var slave in this.slaves)
+            {
+                this.SendMessage(slave.Key, slave.Value, new Message(Operation.Remove, user));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Method for removing user by id
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns>true on seccess</returns>
+        public bool Remove(int id)
+        {
+            var user = this.service.GetUserById(id);
+            bool result = this.service.Remove(u => u.Id == id);
 
             foreach (var slave in this.slaves)
             {

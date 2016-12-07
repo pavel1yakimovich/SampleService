@@ -13,3 +13,8 @@ C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\MasterSlaveRepli
 C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\MasterSlaveReplication\SampleService\MyServiceLibrary\obj\Debug\MyServiceLibrary.csprojResolveAssemblyReference.cache
 C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\MasterSlaveReplication\SampleService\MyServiceLibrary\obj\Debug\MyServiceLibrary.dll
 C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\MasterSlaveReplication\SampleService\MyServiceLibrary\obj\Debug\MyServiceLibrary.pdb
+C:\Users\Pavel_Yakimovich\Desktop\SampleService-master\MyServiceLibrary\bin\Debug\MyServiceLibrary.dll
+C:\Users\Pavel_Yakimovich\Desktop\SampleService-master\MyServiceLibrary\bin\Debug\MyServiceLibrary.pdb
+C:\Users\Pavel_Yakimovich\Desktop\SampleService-master\MyServiceLibrary\obj\Debug\MyServiceLibrary.csprojResolveAssemblyReference.cache
+C:\Users\Pavel_Yakimovich\Desktop\SampleService-master\MyServiceLibrary\obj\Debug\MyServiceLibrary.dll
+C:\Users\Pavel_Yakimovich\Desktop\SampleService-master\MyServiceLibrary\obj\Debug\MyServiceLibrary.pdb

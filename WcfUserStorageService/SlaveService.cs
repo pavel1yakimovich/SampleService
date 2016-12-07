@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 namespace WcfUserStorageService
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in both code and config file together.
-    public class SlaveService : MarshalByRefObject, ISlaveService
+    public class SlaveService : ISlaveService
     {
         private static readonly List<Slave> slaves;
 
@@ -39,57 +39,44 @@ namespace WcfUserStorageService
             }
         }
 
+        /// <summary>
+        /// Method for searchiong user
+        /// </summary>
+        /// <param name="search">searching context</param>
+        /// <param name="slaveNumber">number of slave</param>
+        /// <returns></returns>
         public IEnumerable<User> Search(SearchContext search, int slaveNumber)
         {
             var slave = slaves[slaveNumber];
             var result = new List<User>();
 
-            if (!string.IsNullOrEmpty(search.FirstName) && !string.IsNullOrEmpty(search.LastName))
+            if (!string.IsNullOrEmpty(search.FirstName) && !string.IsNullOrEmpty(search.LastName) && ReferenceEquals(search.DateOfBirth, null))
             {
-                return slave.Search(search.FirstName, search.LastName);
+                return slave.Search(search.FirstName, search.LastName).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(search.FirstName) && !string.IsNullOrEmpty(search.LastName) && !ReferenceEquals(search.DateOfBirth, null))
+            {
+                return slave.Search(new User
+                {
+                    FirstName = search.FirstName,
+                    LastName = search.LastName,
+                    DateOfBirth = search.DateOfBirth.Value
+                }).ToList();
             }
 
             return result;
         }
 
+        /// <summary>
+        /// Method for searching user by Id
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <param name="slaveNumber">number of slave</param>
+        /// <returns></returns>
         public User SearchById (int id, int slaveNumber)
         {
             return slaves[slaveNumber].Search(id);
         }
     }
 }
-
-
-//public delegate IList<User> SearchDelegate(params Func<User, bool>[] func);
-//class Program
-//{
-//    private static SearchDelegate search;
-//    static void Main(string[] args)
-//    {
-//        #region newDomain 
-//        var appDomainSetup = new AppDomainSetup
-//        {
-//            ApplicationBase = AppDomain.CurrentDomain.BaseDirectory,
-//            PrivateBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FirstSlave")
-//        };
-
-//        AppDomain domain = AppDomain.CreateDomain("FirstSlave", null, appDomainSetup);
-//        #endregion
-
-//        var slave = (Slave)domain.CreateInstanceAndUnwrap("MasterSlaveReplication, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", typeof(Slave).FullName);
-//        var slaveTask = Task.Run(() => slave.ListenMaster());
-//        var master = new Master();
-//        search += master.SearchUsers;
-//        search += slave.SearchUsers;
-
-
-
-//        master.Add(new User() { FirstName = "Pasha", LastName = "Yakimovich", DateOfBirth = DateTime.Now });
-//        master.Add(new User() { FirstName = "Pasha", LastName = "Yakimovich-wqeweg", DateOfBirth = DateTime.Now });
-
-//        master.Update(new User() { Id = 1, FirstName = "Pasha", LastName = "Yakimovicjirgp", DateOfBirth = DateTime.Now });
-//        ImitateRequest(5);
-
-
-
-//        slaveTask.Wait();

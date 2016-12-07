@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace WcfUserStorageService
 {
-    public class MasterService : MarshalByRefObject, IMasterService
+    public class MasterService : IMasterService
     {
         private static readonly Master master;
 
@@ -31,6 +31,11 @@ namespace WcfUserStorageService
                 activationAttributes: null);
         }
 
+        /// <summary>
+        /// Method for adding user
+        /// </summary>
+        /// <param name="user">user</param>
+        /// <returns>id</returns>
         public int Add(UserDataContract user) => master.Add(new User()
         {
             FirstName = user.FirstName,
@@ -38,6 +43,11 @@ namespace WcfUserStorageService
             DateOfBirth = user.DateOfBirth
         });
 
+        /// <summary>
+        /// Method for adding range of users
+        /// </summary>
+        /// <param name="list">list of users</param>
+        /// <returns>list of id</returns>
         public IEnumerable<int> AddRange(List<UserDataContract> list)
         {
             var userList = list.Select(user => new User()
@@ -48,6 +58,11 @@ namespace WcfUserStorageService
             return master.AddRange(userList);
         }
 
+        /// <summary>
+        /// Method for removing users
+        /// </summary>
+        /// <param name="user">users we want remove</param>
+        /// <returns>true on success</returns>
         public bool Remove(UserDataContract user)
         {
             return master.Remove(new User()
@@ -58,18 +73,44 @@ namespace WcfUserStorageService
             });
         }
 
+        /// <summary>
+        /// Method for removing user by id
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns>true on success</returns>
+        public bool RemoveById(int id)
+        {
+            return master.Remove(id);
+        }
+
+        /// <summary>
+        /// Method for searching user
+        /// </summary>
+        /// <param name="search">searching context</param>
+        /// <returns>list of users</returns>
         public IEnumerable<User> Search(SearchContext search)
         {
             var result = new List<User>();
 
-            if (!string.IsNullOrEmpty(search.FirstName) && !string.IsNullOrEmpty(search.LastName))
+            if (!string.IsNullOrEmpty(search.FirstName) && !string.IsNullOrEmpty(search.LastName) && ReferenceEquals(search.DateOfBirth, null))
             {
-                return master.Search(search.FirstName, search.LastName);
+                return master.Search(search.FirstName, search.LastName).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(search.FirstName) && !string.IsNullOrEmpty(search.LastName) && !ReferenceEquals(search.DateOfBirth, null))
+            {
+                return master.Search(new User { FirstName = search.FirstName, LastName = search.LastName,
+                DateOfBirth = search.DateOfBirth.Value }).ToList();
             }
 
             return result;
         }
 
+        /// <summary>
+        /// Method for searching user by id
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns>user</returns>
         public User SearchById(int id) => master.Search(id);
     }
 }

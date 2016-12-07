@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace MyServiceLibrary
 {
-    [Serializable]
     public class Slave : MarshalByRefObject
     {
         private static int count;
@@ -39,22 +38,28 @@ namespace MyServiceLibrary
         }
 
         /// <summary>
-        /// Method for searching users
+        /// Method for searching user by name
         /// </summary>
-        /// <param name="predicate">Predicate</param>
-        /// <returns>List of users</returns>
+        /// <param name="fname">first name</param>
+        /// <param name="lname">last name</param>
+        /// <returns>list of users</returns>
         public IEnumerable<User> Search(string fname, string lname)
         {
             IEnumerable<User> result;
 
             lock (this.locker)
             {
-                result = this.service.GetUserByName(fname, lname);
+                result = this.service.GetUser(u => u.FirstName == fname && u.LastName == lname);
             }
 
             return result;
         }
 
+        /// <summary>
+        /// Method for searching user by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public User Search(int id)
         {
             User result;
@@ -62,6 +67,24 @@ namespace MyServiceLibrary
             lock (this.locker)
             {
                 result = this.service.GetUserById(id);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Method for searching user
+        /// </summary>
+        /// <param name="user">user</param>
+        /// <returns>list of users</returns>
+        public IEnumerable<User> Search(User user)
+        {
+            IEnumerable<User> result;
+
+            lock (this.locker)
+            {
+                result = this.service.GetUser(u => u.FirstName == user.FirstName &&
+                user.LastName == user.LastName && u.DateOfBirth == user.DateOfBirth);
             }
 
             return result;

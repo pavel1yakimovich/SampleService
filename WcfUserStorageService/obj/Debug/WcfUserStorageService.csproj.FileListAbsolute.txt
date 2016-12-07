@@ -22,3 +22,11 @@ C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\MasterSlaveRepli
 C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\MasterSlaveReplication\SampleService\WcfUserStorageService\obj\Debug\WcfUserStorageService.csprojResolveAssemblyReference.cache
 C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\MasterSlaveReplication\SampleService\WcfUserStorageService\obj\Debug\WcfUserStorageService.dll
 C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\MasterSlaveReplication\SampleService\WcfUserStorageService\obj\Debug\WcfUserStorageService.pdb
+C:\Users\Pavel_Yakimovich\Desktop\SampleService-master\WcfUserStorageService\bin\Debug\WcfUserStorageService.dll.config
+C:\Users\Pavel_Yakimovich\Desktop\SampleService-master\WcfUserStorageService\bin\Debug\WcfUserStorageService.dll
+C:\Users\Pavel_Yakimovich\Desktop\SampleService-master\WcfUserStorageService\bin\Debug\WcfUserStorageService.pdb
+C:\Users\Pavel_Yakimovich\Desktop\SampleService-master\WcfUserStorageService\bin\Debug\MyServiceLibrary.dll
+C:\Users\Pavel_Yakimovich\Desktop\SampleService-master\WcfUserStorageService\bin\Debug\MyServiceLibrary.pdb
+C:\Users\Pavel_Yakimovich\Desktop\SampleService-master\WcfUserStorageService\obj\Debug\WcfUserStorageService.csprojResolveAssemblyReference.cache
+C:\Users\Pavel_Yakimovich\Desktop\SampleService-master\WcfUserStorageService\obj\Debug\WcfUserStorageService.dll
+C:\Users\Pavel_Yakimovich\Desktop\SampleService-master\WcfUserStorageService\obj\Debug\WcfUserStorageService.pdb

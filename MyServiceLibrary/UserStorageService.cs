@@ -80,13 +80,13 @@ namespace MyServiceLibrary
         /// <param name="predicate">predicate</param>
         /// <returns>boolean on success</returns>
         public bool Remove(Predicate<User> predicate) => this.storage.RemoveAll(predicate) != 0 ? true : false;
-
+        
         /// <summary>
-        /// Method for searching user by predicate
+        /// Method for searching users by predicate
         /// </summary>
         /// <param name="predicate">predicate</param>
-        /// <returns>IEnumerable of users</returns>
-        public IEnumerable<User> GetUserByName(string FirstName, string LastName) => this.storage.Where(u => u.FirstName == FirstName && u.LastName == LastName).ToList();
+        /// <returns>list of users</returns>
+        public IEnumerable<User> GetUser(Func<User, bool> predicate) => this.storage.Where(predicate).ToList();
 
         /// <summary>
         /// Method for getting user by id
@@ -98,6 +98,7 @@ namespace MyServiceLibrary
         /// <summary>
         /// Method for saving list
         /// </summary>
+        /// <param name="saver">instance of saver</param>
         public void Save(ISaver<User> saver) => saver.Save(this.storage);
 
         private int SetId()
